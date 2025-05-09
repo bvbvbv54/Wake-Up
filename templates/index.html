@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wake Up - Intro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v={{ time }}">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #2a2139, #5e3b76, #9b5de5, #2a2139);
+      background-size: 400% 400%;
+      animation: gradientShift 10s ease infinite;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: white;
+      text-align: center;
+    }
+
+    .intro-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeInContainer 1.5s ease-in-out forwards;
+    }
+
+    .moon-icon {
+      font-size: 100px;
+      color: #bb86fc;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeInIcon 1.5s ease-out forwards;
+    }
+
+    .intro-text {
+      font-size: 36px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 10px;
+      opacity: 0;
+      animation: typewriter 2.8s steps(25) 1s forwards, fadeInText 2s ease-in-out 1s forwards;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .quote {
+      font-size: 18px;
+      font-weight: 400;
+      color: #ddd;
+      max-width: 380px;
+      margin-top: 10px;
+      opacity: 0;
+      animation: fadeInQuote 1.5s ease-in 3.6s forwards;
+    }
+
+    .start-btn {
+      padding: 12px 26px;
+      background-color: #7e57c2;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      margin-top: 30px;
+      opacity: 0;
+      animation: fadeInButton 1.5s ease-out 5s forwards;
+      transform: translateY(20px);
+    }
+
+    .start-btn:hover {
+      background-color: #5e35b1;
+      transform: translateY(0);
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+
+    @keyframes fadeInContainer {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeInIcon {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes typewriter {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes fadeInText {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInQuote {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInButton {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="intro-container" id="intro-container">
+    <div class="moon-icon" aria-hidden="true">&#9789;</div>
+    <div class="intro-text">Welcome to Wake Up</div>
+    <div class="quote">Rise up, start fresh.</div>
+    <button class="start-btn" onclick="startApp()">Let's Start</button>
+  </div>
+
+  <script>
+    function startApp() {
+      window.location.href = '/login';
+    }
+  </script>
+</body>
+</html>
+
+

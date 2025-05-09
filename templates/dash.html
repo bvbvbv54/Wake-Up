@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wake Up | Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #2a2139, #5e3b76, #9b5de5, #2a2139);
+      background-size: 400% 400%;
+      animation: gradientShift 8s ease infinite;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 4rem;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+
+    header {
+      background-color: rgba(18, 35, 46, 0.9);
+      width: 100%;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      background-color: rgba(28, 58, 77, 0.9);
+      padding: 0.5rem;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      border-top: 1px solid #ffffff33;
+    }
+
+    nav i {
+      color: #ccc;
+      font-size: 1.5rem;
+      transition: color 0.3s ease;
+    }
+
+    nav i:hover {
+      color: #fff;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      margin: 1rem 0;
+      text-align: center;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .alarm-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .alarm-item {
+      background-color: rgba(27, 46, 60, 0.9);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .alarm-item:hover {
+      transform: scale(1.05);
+    }
+
+    .alarm-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .alarm-time {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .alarm-status {
+      font-size: 1rem;
+      color: #aaa;
+    }
+
+    .btn-cancel {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-cancel:hover {
+      background-color: #d32f2f;
+      transform: scale(1.05);
+    }
+
+    .add-alarm {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+      padding: 0.6rem;
+      background-color: rgba(27, 46, 60, 0.9);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .add-alarm input {
+      flex: 1;
+      padding: 0.6rem;
+      margin-right: 0.5rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1.1rem;
+    }
+
+    .btn-add {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-add:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+    }
+    .btn-logout {
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 1rem;
+}
+
+   .btn-logout:hover {
+  background-color: #e64a19;
+  transform: scale(1.05);
+}
+
+    .profile-section, .insights-section {
+      padding: 1rem;
+      background-color: rgba(27, 46, 60, 0.9);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    .profile-section input, .insights-section select {
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 1.1rem;
+    }
+
+    .profile-section button, .insights-section button {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .profile-section button:hover, .insights-section button:hover {
+      background-color: #1976D2;
+    }
+    .voice-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 20px;
+      padding: 8px 15px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      transition: background-color 0.4s ease;
+}
+
+    .voice-status {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: var(--light); /* Idle color */
+      transition: background-color 0.4s ease;
+    }
+
+    .voice-status.listening {
+      background-color: red; /* 🔴 Red dot when listening */
+      animation: pulse 1.5s infinite;
+    }
+
+    .voiceText {
+      font-weight: 500;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      animation: pulse 1.5s infinite;
+    }
+
+    .voiceText.listening {
+      animation: pulse 1.5s infinite;
+    }
+     .fade-in {
+    opacity: 1;
+    transform: translateY(0);
+     }
+
+     .fade-out {
+    opacity: 0;
+    transform: translateY(10px);
+     }
+
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.5; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getDatabase, ref, onChildAdded, onChildRemoved, push, remove } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+    const userId = "{{ user_id }}";  // Dynamically set from Flask
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKlQDZVB4MD8tzgsFz5wP8hpUav0kUa5w",
+      authDomain: "wake-up-44e5a.firebaseapp.com",
+      databaseURL: "https://wake-up-44e5a-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "wake-up-44e5a",
+      storageBucket: "wake-up-44e5a.appspot.com",
+      messagingSenderId: "890824806590",
+      appId: "1:890824806590:web:b12df14218004ae9164eef",
+      measurementId: "G-T0JPDMKJ6M"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const alarmList = document.getElementById('alarms');
+
+    const alarmsRef = ref(db, `users/${userId}/alarms`);
+
+    // Add new alarm to UI when it appears in Firebase
+    onChildAdded(alarmsRef, (snapshot) => {
+      const alarmId = snapshot.key;
+      const alarmData = snapshot.val();
+      if (alarmData.status === 'cancelled') return;
+
+      const li = document.createElement('li');
+      li.className = 'alarm-item';
+      li.id = `alarm-${alarmId}`;
+      li.innerHTML = `
+        <div class="alarm-info">
+          <div class="alarm-time">${alarmData.time}</div>
+          <div class="alarm-status">${alarmData.status}</div>
+        </div>
+        <button class="btn-cancel" onclick="cancelAlarm('${alarmId}')">Cancel</button>
+      `;
+
+      // Append with animation
+      alarmList.appendChild(li);
+      li.style.animation = 'fadeIn 0.6s ease';  // Smooth fade-in animation
+    });
+
+    // Remove alarm from UI when deleted in Firebase
+    onChildRemoved(alarmsRef, (snapshot) => {
+      const alarmId = snapshot.key;
+      removeAlarmFromList(alarmId);
+    });
+
+    window.cancelAlarm = function(alarmId) {
+      fetch(`/cancel_alarm/${alarmId}`, {
+        method: 'POST'
+      }).then(res => res.json()).then(data => {
+        if (data.status === 'success') {
+          const alarmItem = document.getElementById(`alarm-${alarmId}`);
+          if (alarmItem) {
+            alarmItem.style.animation = 'fadeOut 0.6s ease';  // Smooth fade-out animation
+            setTimeout(() => {
+              alarmItem.remove();  // Remove after fade-out
+            }, 600);  // Match duration of fade-out animation
+          }
+        } else {
+          alert('Failed to cancel alarm');
+        }
+      });
+    };
+
+
+  function removeAlarmFromList(alarmId) {
+    const li = document.getElementById(`alarm-${alarmId}`);
+    if (li) {
+      li.style.animation = 'fadeOut 0.4s ease';
+      setTimeout(() => li.remove(), 400);  // Wait for animation
+  }}
+
+
+    window.addAlarm = function() {
+      const alarmTime = document.getElementById('alarmTimeInput').value;
+      if (!alarmTime) {
+        alert('Please set a valid time!');
+         return;
+      }
+
+    fetch('/add_alarm', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: userId, alarm_time: alarmTime })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        alert('Alarm added successfully!');
+        document.getElementById('alarmTimeInput').value = '';
+
+          // Push the alarm to Firebase so it triggers onChildAdded for real-time display
+        const newAlarmRef = push(alarmsRef);
+        newAlarmRef.set({
+          time: alarmTime, status: 'active'
+          });
+
+          // Add the alarm directly to the UI without refreshing
+        const li = document.createElement('li');
+        li.className = 'alarm-item';
+        li.id = `alarm-${newAlarmRef.key}`;
+        li.innerHTML = `
+          <div class="alarm-info">
+          <div class="alarm-time">${alarmTime}</div>
+          <div class="alarm-status">active</div>
+          </div>
+          <button class="btn-cancel" onclick="cancelAlarm('${newAlarmRef.key}')">Cancel</button>
+          `;
+        alarmList.appendChild(li);
+        li.style.animation = 'fadeIn 0.6s ease';
+        } else {
+            alert('Error adding alarm: ' + data.message);
+        }
+      });
+    };
+
+  </script>
+
+  <script>
+    function logout() {
+    fetch('/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        alert('Logged out successfully!');
+        window.location.href = '/';  // Redirect to home/login page
+      } else {
+        alert('Logout failed: ' + data.message);
+      }
+    })
+    .catch(err => {
+      console.error('Logout error:', err);
+      alert('An error occurred while logging out.');
+    });
+  }
+    document.addEventListener('DOMContentLoaded', function () {
+    function fetchAndRenderAlarms() {
+        fetch('/get_alarms')
+            .then(response => response.json())
+            .then(data => {
+                const alarmsUl = document.getElementById('alarms');
+                alarmsUl.innerHTML = ''; // Clear previous alarms
+
+                if (data.status === 'success' && data.alarms.length > 0) {
+                    // Convert time strings like "8:00 AM" to Date objects for sorting
+                    data.alarms.sort((a, b) => {
+                        const parseTime = str => {
+                            const [time, modifier] = str.split(' ');
+                            let [hours, minutes] = time.split(':').map(Number);
+
+                            if (modifier === 'PM' && hours !== 12) {
+                                hours += 12;
+                            }
+                            if (modifier === 'AM' && hours === 12) {
+                                hours = 0;
+                            }
+
+                            return hours * 60 + minutes; // Total minutes since midnight
+                        };
+
+                        return parseTime(a.time) - parseTime(b.time);
+                    });
+
+                    data.alarms.forEach(alarm => {
+                        const li = document.createElement('li');
+                        li.className = 'alarm-item';
+                        li.innerHTML = `
+                          <div class="alarm-info">
+                            <div class="alarm-time">${alarm.time}</div>
+                            <div class="alarm-status">${alarm.status}</div>
+                          </div>
+                          <button class="btn-cancel" onclick="cancelAlarm('${alarm.id}')">Cancel</button>
+                        `;
+                        alarmsUl.appendChild(li);
+                    });
+                } else {
+                    alarmsUl.innerHTML = '<li>No alarms found.</li>';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching alarms:', error);
+                document.getElementById('alarms').innerHTML = '<li>Failed to load alarms.</li>';
+            });
+    }
+
+    // Call once initially
+    fetchAndRenderAlarms();
+
+    // Then call every 30 seconds
+    setInterval(fetchAndRenderAlarms, 3000);
+});
+function updateVoiceUI(status) {
+  const voiceStatus = document.getElementById("voiceStatus");
+  const voiceText = document.getElementById("voiceText");
+  if (status === "listening") {
+    voiceStatus.classList.add("listening");
+    voiceText.classList.add("listening");
+    voiceText.textContent = "Listening";
+} else {
+      voiceStatus.classList.remove("listening");
+      voiceText.classList.remove("listening");
+      voiceText.textContent = "Say 'Wake Up' to activate voice recognition";
+}
+}
+setInterval(() => {
+    fetch("/voice_status")
+        .then(response => response.json())
+        .then(data => updateVoiceUI(data.status))
+        .catch(err => console.error("Error fetching voice status:", err));
+}, 2000);
+function fadeText(el, newText) {
+    el.classList.remove('fade-in');
+    el.classList.add('fade-out');
+
+    setTimeout(() => {
+        el.textContent = newText;
+        el.classList.remove('fade-out');
+        el.classList.add('fade-in');
+    }, 250);
+
+}
+window.addEventListener("DOMContentLoaded", () => {
+    updateVoiceUI("idle");
+  });
+
+
+  </script>
+
+</head>
+<button class="btn-logout" onclick="logout()">Logout</button>
+<body>
+  <header>
+    <h1><i class="fas fa-bed"></i> Wake Up </h1>
+  </header>
+
+  <div class="container">
+    <!-- Your Alarms Section -->
+    <section class="alarm-section">
+      <h2 class="section-title">Your Alarms</h2>
+      <ul id="alarms" class="alarm-list"></ul>
+    </section>
+
+    <!-- Add Alarm Section -->
+    <section class="add-section">
+      <h2 class="section-title">Add Alarm</h2>
+      <div class="add-alarm">
+        <input type="time" id="alarmTimeInput" step="1" />
+        <button class="btn-add" onclick="addAlarm()">Add</button>
+      </div>
+      <div class="voice-indicator">
+        <div class="voice-status" id="voiceStatus" ></div>
+        <span class="voiceText" id="voiceText"></span>
+    </div>
+    </section>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav>
+    <i class="fas fa-user" onclick="window.location.href='/profile'"></i>
+    <i class="fas fa-chart-line" onclick="window.location.href='/insights'"></i>
+  </nav>
+
+</body>
+
+</html>
+
+

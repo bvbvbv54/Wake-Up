@@ -1,0 +1,123 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sleep Insights</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+  <div class="container mx-auto px-4 py-6">
+    <div class="space-y-6">
+      <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Sleep Insights</h1>
+      </div>
+
+      <!-- Summary -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h2 class="text-xl font-semibold mb-4">Sleep Summary</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="text-center">
+            <p class="text-sm text-gray-500">Average Duration</p>
+            <p class="text-2xl font-bold">{{ summary.average_duration }}</p>
+          </div>
+          <div class="text-center">
+            <p class="text-sm text-gray-500">Average Quality</p>
+            <p class="text-2xl font-bold">{{ summary.average_quality }}/100</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h2 class="text-xl font-semibold mb-4">Sleep Duration & Quality</h2>
+        <canvas id="sleepChart"></canvas>
+      </div>
+
+      <!-- Insights -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <h2 class="text-xl font-semibold mb-4">Trends</h2>
+          <ul class="space-y-3">
+            <li>
+              <span class="font-medium">Sleep Duration:</span>
+              {% if trends.duration_change >= 0 %}
+                <span class="text-green-600">+{{ trends.duration_change }} min</span>
+              {% else %}
+                <span class="text-red-600">{{ trends.duration_change }} min</span>
+              {% endif %}
+            </li>
+            <li>
+              <span class="font-medium">Sleep Quality:</span>
+              {% if trends.quality_change >= 0 %}
+                <span class="text-green-600">+{{ trends.quality_change }}</span>
+              {% else %}
+                <span class="text-red-600">{{ trends.quality_change }}</span>
+              {% endif %}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <h2 class="text-xl font-semibold mb-4">Recommendations</h2>
+          <ul class="list-disc list-inside space-y-2">
+            {% for rec in recommendations %}
+              <li>{{ rec }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const labels = JSON.parse('{{ daily_data | map(attribute="date") | list | tojson | safe }}');
+    const durations = JSON.parse('{{ daily_data | map(attribute="duration") | list | tojson | safe }}');
+    const qualities = JSON.parse('{{ daily_data | map(attribute="quality") | list | tojson | safe }}');
+  const ctx = document.getElementById('sleepChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Duration (minutes)',
+          data: durations,
+          backgroundColor: 'rgba(99, 102, 241, 0.7)',
+          yAxisID: 'y1'
+        },
+        {
+          label: 'Quality',
+          data: qualities,
+          type: 'line',
+          borderColor: 'rgba(16, 185, 129, 1)',
+          backgroundColor: 'rgba(16, 185, 129, 0.2)',
+          yAxisID: 'y2'
+        }
+      ]
+    },
+    options: {
+      scales: {
+        y1: {
+          type: 'linear',
+          position: 'left',
+          beginAtZero: true,
+          title: { display: true, text: 'Duration (minutes)' }
+        },
+        y2: {
+          type: 'linear',
+          position: 'right',
+          beginAtZero: true,
+          max: 100,
+          title: { display: true, text: 'Quality' },
+          grid: { drawOnChartArea: false }
+        }
+      }
+    }
+  });
+  </script>
+</body>
+</html>
+
+
